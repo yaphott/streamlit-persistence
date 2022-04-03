@@ -8,7 +8,7 @@ Allows for persistence of class attributes when building data apps using Streaml
 
 ```
 python3.9 -m venv venv39 && source venv39/bin/activate
-python3.9 -m pip install -U pip setuptools wheel wheel build && python3.9 -m pip install -U pip setuptools wheel wheel build
+python3.9 -m pip install -U pip setuptools wheel build && python3.9 -m pip install -U pip setuptools wheel build
 
 git clone https://github.com/yaphott/streamlit-persistence.git
 cd streamlit-persistence
