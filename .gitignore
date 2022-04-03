@@ -1,0 +1,16 @@
+# Ignore everything
+*
+
+# Except
+!setup.py
+
+!streamlit_persistence/
+!streamlit_persistence/*
+
+!LICENSE.txt
+!README.md
+
+!.gitignore
+
+!.git/
+!.git/*
