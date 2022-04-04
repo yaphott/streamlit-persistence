@@ -18,19 +18,19 @@ class PersistentObject(metaclass=Meta):
     def __getattribute__(self, name: str):
         session_state = super().__getattribute__("session_state")
         if name in list(session_state.keys()):
-            # User-Defined Attribute from Session State
+            # Get (user-defined) value from a key in the session state
             return session_state[name]
         else:
-            # Class Attribute
+            # Get class attribute
             return super().__getattribute__(name)
 
     def __setattr__(self, name: str, value: Any) -> None:
-        session_state = super().__getattribute__("session_state")
         if name not in super().__dir__():
-            # Assign User-Defined Attribute to Session State
+            # Set (user-defined) value at a key in the session state
+            session_state = super().__getattribute__("session_state")
             session_state[name] = value
         else:
-            # Assign Class Attribute
+            # Set class attribute
             super().__setattr__(name, value)
 
     def __dir__(self) -> list[str]:

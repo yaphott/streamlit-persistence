@@ -13,8 +13,8 @@ python3.9 -m pip install -U pip setuptools wheel build && python3.9 -m pip insta
 git clone https://github.com/yaphott/streamlit-persistence.git
 cd streamlit-persistence
 
-# Development Mode for Now
-python3.9 -m pip install -e .
+# Install
+python3.9 -m pip install .
 ```
 
 ### Using the module
@@ -27,22 +27,31 @@ from streamlit_persistence import PersistentObject
 # (1/2) Use 'PersistentObject' as parent class
 class Test(PersistentObject):
 
-    # (2/2) Create ref. to session state
+    # (2/2) Set a class attribute with a reference to Streamlit's session state
     session_state = st.session_state
 
-    colors: list[str] = ["red", "orange", "yellow"]
-
     def __init__(self) -> None:
+        self.colors: list[str] = None
+
         self.color: str = None
 
     def run(self):
-        # Choose index of the previous selection (if not first iteration)
-        color_index = self.colors.index(self._color) if self._color else 0
+        # Setting an instance attribute
+        # The value of self.colors should be None unless modified by a previous iteration
+        if self.colors is None:
+            self.colors = ["red", "blue", "green"]
 
-        # Select box with list of colors
-        self.color = st.selectbox("Select a color", self.colors, index=color_index)
+        # Select box with the list of colors
+        self.color = st.selectbox(
+            "Select a color",
+            self.colors,
+            # Same idea here. We use the index of the user's selection
+            # from the previous iteration by checking if the value is None.
+            index=self.colors.index(self.color) if self.color is None else 0,
+        )
 
         st.success(f"You have selected the color {self.color}.")
+
 
 def main():
     test = Test()
