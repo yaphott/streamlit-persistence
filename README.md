@@ -2,6 +2,8 @@
 
 Allows for persistence of class attributes when building data apps using Streamlit in Python
 
+I've worked out a few ways I could handle the `__init__` method but have **not had time to implement** them. A temporary workaround*is to use `hasattr` to check if a previous iteration initialized the value.
+
 ## Getting started
 
 ### Installing
@@ -30,33 +32,27 @@ class Test(PersistentObject):
     # (2/2) Set a class attribute with a reference to Streamlit's session state
     session_state = st.session_state
 
-    def __init__(self) -> None:
-        self.colors: list[str] = None
-
-        self.color: str = None
-
     def run(self):
-        # Setting an instance attribute
-        # The value of self.colors should be None unless modified by a previous iteration
-        if self.colors is None:
-            self.colors = ["red", "blue", "green"]
+        if not hasattr(self, "colors"):
+            self.colors = [None, "red", "blue", "green"]
 
-        # Select box with the list of colors
-        self.color = st.selectbox(
-            "Select a color",
-            self.colors,
-            # Same idea here. We use the index of the user's selection
-            # from the previous iteration by checking if the value is None.
-            index=self.colors.index(self.color) if self.color is None else 0,
-        )
+        if not hasattr(self, "color"):
+            self.color = None
+
+        index = self.colors.index(self.color)
+        self.color = st.selectbox("Select a color", self.colors, index=index)
+
+        if self.color:
+            return None
 
         st.success(f"You have selected the color {self.color}.")
 
 
 def main():
-    test = Test()
-    test.run()
+    Test().run()
+
 
 if __name__ == "__main__":
     main()
+
 ```
