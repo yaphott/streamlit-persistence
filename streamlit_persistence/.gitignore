@@ -1,0 +1,16 @@
+# Ignore everything
+*
+
+# Except
+!setup.py
+
+!base.py
+!version.py
+
+!LICENSE.txt
+!README.md
+
+!.gitignore
+
+!.git/
+!.git/*

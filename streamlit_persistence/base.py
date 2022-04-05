@@ -1,5 +1,7 @@
 from typing import Any
 
+# https://docs.python.org/3/reference/datamodel.html#object.__new__
+
 
 class Meta(type):
     def __getattribute__(cls, name: str) -> Any:
@@ -7,6 +9,9 @@ class Meta(type):
 
     def __setattr__(cls, name: str, value: Any) -> None:
         super().__setattr__(name, value)
+
+    def __delattr__(cls, name: str) -> None:
+        super().__delattr__(name)
 
     def __dir__(cls) -> list[str]:
         super().__dir__()
@@ -32,6 +37,15 @@ class PersistentObject(metaclass=Meta):
         else:
             # Set class attribute
             super().__setattr__(name, value)
+
+    def __delattr__(self, name: str) -> None:
+        if name not in super().__dir__():
+            # Delete (user-defined) value at a key in the session state
+            session_state = super().__getattribute__("session_state")
+            del session_state[name]
+        else:
+            # Delete class attribute
+            super().__delattr__(name)
 
     def __dir__(self) -> list[str]:
         session_state = super().__getattribute__("session_state")
