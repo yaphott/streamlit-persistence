@@ -2,13 +2,8 @@
 *
 
 # Except
-!setup.py
-
+!__init__.py
 !base.py
-!version.py
-
-!LICENSE.txt
-!README.md
 
 !.gitignore
 

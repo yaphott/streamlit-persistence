@@ -1,51 +1,61 @@
 # streamlit-persistence
 
-Allows for persistence of class attributes when building data apps using Streamlit in Python
-
-I've worked out a few ways I could handle the `__init__` method but have **not had time to implement** them. A temporary workaround*is to use `hasattr` to check if a previous iteration initialized the value.
+Allows for persistence of class/instance attributes when using Streamlit in Python
 
 ## Getting started
 
 ### Installing
 
+```bash
+python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install streamlit-persistence
 ```
-python3.9 -m venv venv39 && source venv39/bin/activate
-python3.9 -m pip install -U pip setuptools wheel build && python3.9 -m pip install -U pip setuptools wheel build
 
+or
+
+```bash
 git clone https://github.com/yaphott/streamlit-persistence.git
 cd streamlit-persistence
-
-# Install
-python3.9 -m pip install .
+python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install .
 ```
 
 ### Using the module
 
-```
+1. Use `PersistentObject` as the parent class
+2. Assign the Streamlit `session_state` to a class attribute named `session_state`
+3. Assign class/instance attributes as you would normally
+   - Still need to implement a proper way to handle the `__init__` method
+   - Until then you can simply check an instantiated class for the instance attribute using `hasattr` before it is referenced
+
+```python
 import streamlit as st
 from streamlit_persistence import PersistentObject
 
 
-# (1/2) Use 'PersistentObject' as parent class
-class Test(PersistentObject):
+options = [None, "veggie", "pepperoni"]
 
-    # (2/2) Set a class attribute with a reference to Streamlit's session state
+
+class Test(PersistentObject):
     session_state = st.session_state
 
     def run(self):
-        if not hasattr(self, "colors"):
-            self.colors = [None, "red", "blue", "green"]
+        if not hasattr(self, "pizza"):
+            self.pizza = None
 
-        if not hasattr(self, "color"):
-            self.color = None
+        # Default to the index of previously selected
+        selected = st.selectbox(
+            "Select a pizza",
+            options,
+            index=options.index(self.pizza),
+        )
 
-        index = self.colors.index(self.color)
-        self.color = st.selectbox("Select a color", self.colors, index=index)
+        # Update instance attribute if user changes their selection
+        if self.pizza != selected:
+            self.pizza = selected
+            st.experimental_rerun()
 
-        if self.color:
-            return None
-
-        st.success(f"You have selected the color {self.color}.")
+        st.success(f"You have selected the pizza: {self.pizza}")
 
 
 def main():
@@ -54,5 +64,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 ```

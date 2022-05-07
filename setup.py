@@ -1,26 +1,27 @@
-import setuptools
+from setuptools import setup
 
-setuptools.setup(
+with open("README.md", mode="r", encoding="utf-8") as r:
+    long_description = r.read()
+
+setup(
     name="streamlit-persistence",
-    description="Allows for persistence of class attributes when building data apps using Streamlit in Python",
+    version="0.0.2",
     author="yaphott",
-    packages=[
-        "streamlit_persistence",
-    ],
+    author_email="yaphott@gmail.com",
+    description="Allows for persistence of class/instance attributes when using Streamlit in Python",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/yaphott/streamlit-persistence",
+    # project_urls={
+    #     "Bug Tracker": "https://github.com/pypa/streamlit-persistence/issues",
+    # },
+    packages=["streamlit_persistence"],
     classifiers=[
-        "Development Status :: 0.1",
-        "Programming Language :: Python :: 3.9",
+        "Development Status :: 2 - Pre-Alpha",
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-    use_scm_version={
-        "root": ".",
-        "relative_to": __file__,
-        "local_scheme": "node-and-timestamp",
-    },
-    install_requires=[
-        "streamlit>=1.8.1",
-    ],
-    setup_requires=[
-        "setuptools_scm",
-    ],
+    install_requires=["streamlit>=1.8.1"],
     python_requires=">=3.9",
 )
