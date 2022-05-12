@@ -3,6 +3,7 @@
 
 # Except
 !setup.py
+!version.py
 !build.sh
 
 !streamlit_persistence/

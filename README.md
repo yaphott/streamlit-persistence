@@ -4,19 +4,18 @@ Allows for persistence of class/instance attributes when using Streamlit in Pyth
 
 ## Getting started
 
-### Installing
+### Install using pip
 
 ```bash
-python3 -m pip install --upgrade pip setuptools wheel
-python3 -m pip install streamlit-persistence
+pip install streamlit-persistence
 ```
 
-or
+### or build from source
 
 ```bash
 git clone https://github.com/yaphott/streamlit-persistence.git
 cd streamlit-persistence
-python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install -U pip setuptools wheel
 python3 -m pip install .
 ```
 
@@ -25,8 +24,7 @@ python3 -m pip install .
 1. Use `PersistentObject` as the parent class
 2. Assign the Streamlit `session_state` to a class attribute named `session_state`
 3. Assign class/instance attributes as you would normally
-   - Still need to implement a proper way to handle the `__init__` method
-   - Until then you can simply check an instantiated class for the instance attribute using `hasattr` before it is referenced
+   - Check the instantiated class for the instance attribute using `hasattr` (as you would check `session_state` for a given key)
 
 ```python
 import streamlit as st
