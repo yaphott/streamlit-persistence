@@ -5,7 +5,7 @@ with open("README.md", mode="r", encoding="utf-8") as r:
 
 setup(
     name="streamlit-persistence",
-    version="0.0.2b",
+    version="0.0.3",
     author="yaphott",
     author_email="yaphott@gmail.com",
     description="Allows for persistence of class/instance attributes when using Streamlit in Python",
